@@ -114,18 +114,4 @@ class DocumentSpecificationRepository extends DocumentRepository implements Docu
 
         return $queryBuilder;
     }
-
-
-    /**
-     * @param SpecificationInterface $specification
-     */
-    private function supports(SpecificationInterface $specification): void
-    {
-        if ($specification->supports() !== $this->getDocumentName()) {
-            throw new \InvalidArgumentException(\sprintf(
-                'Specification %s not supported by this repository.',
-                \get_class($specification)
-                ));
-        }
-    }
 }
