@@ -95,9 +95,4 @@ interface SpecificationInterface
      * @return SpecificationInterface
      */
     public function refresh(bool $refresh): SpecificationInterface;
-
-    /**
-     * @return string
-     **/
-    public function supports(): string;
 }
