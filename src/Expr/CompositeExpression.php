@@ -33,7 +33,7 @@ class CompositeExpression implements ExpressionInterface
     {
         $this->type = $type;
 
-        if (self::TYPE_AND !== $type || self::TYPE_OR !== $type) {
+        if (self::TYPE_AND !== $type && self::TYPE_OR !== $type) {
             throw new \RuntimeException('No valid type given to CompositeExpression.');
         }
 

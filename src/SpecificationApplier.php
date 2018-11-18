@@ -17,7 +17,7 @@ class SpecificationApplier
     {
         //expressions
         if ($where = $specification->getWhereExpression()) {
-            $queryBuilder->where($where->getExpr($queryBuilder));
+            $queryBuilder->setQueryArray($where->getExpr($queryBuilder)->getQuery());
         }
 
         //query modifiers

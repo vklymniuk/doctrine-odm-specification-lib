@@ -13,8 +13,6 @@ interface SpecificationMatchInterface
      * @param SpecificationInterface $specification
      *
      * @return null|Object
-     *
-     * @throws \Doctrine\ODM\MongoDB\MongoDBException
      */
     public function matchOne(SpecificationInterface $specification): ?Object;
 
@@ -22,8 +20,6 @@ interface SpecificationMatchInterface
      * @param SpecificationInterface $specification
      *
      * @return Iterator
-     *
-     * @throws \Doctrine\ODM\MongoDB\MongoDBException
      */
     public function match(SpecificationInterface $specification): Iterator;
 }
