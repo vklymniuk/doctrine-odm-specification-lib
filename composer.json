@@ -1,0 +1,40 @@
+{
+    "name": "vklymniuk/doctrine-odm-specification-lib",
+    "description": "Wrapper around doctrine odm that allows to use ddd specifications.",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "license": "MIT",
+    "type": "symfony-bundle",
+    "authors": [
+        {
+            "name": "Vladimir Klymniuk",
+            "email": "v.klymniuk@gmail.com"
+        }
+    ],
+    "keywords": [
+        "php",
+        "ddd",
+        "specification",
+        "doctrine",
+        "doctrine-odm",
+        "odm",
+        "mongodb",
+        "symfony"
+    ],
+    "require": {
+        "php": "^7.2",
+        "ext-mongodb": "*",
+        "alcaeus/mongo-php-adapter": "^1.1",
+        "doctrine/mongodb": "^1.6",
+        "doctrine/mongodb-odm-bundle": "^3.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Doctrine\\ODM\\MongoDB\\Specification\\": "src/"
+        }
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-master",
+        "phpunit/phpunit": "^7.4"
+    }
+}
