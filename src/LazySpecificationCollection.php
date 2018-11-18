@@ -118,6 +118,11 @@ class LazySpecificationCollection extends AbstractLazyCollection
             $result = $this->resultTransformer->transform($result);
         }
 
-        $this->collection = new ArrayCollection((array) $result);
+        $collection = new ArrayCollection();
+        foreach ($result as $item) {
+            $collection[] = $item;
+        }
+
+        $this->collection = $collection;
     }
 }
