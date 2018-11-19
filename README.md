@@ -144,12 +144,45 @@ class MyDocumentSpecification extends Specification
     }
 }
 
+
+/**
+ * Class MyDocumentComplexitySearchSpecification
+ */
+class MyDocumentComplexitySearchSpecification extends Specification
+{
+    /**
+     * MyDocumentComplexitySearchSpecification constructor.
+     *
+     * @param string      $userId
+     * @param null|string $map
+     * @param null|string $profileId
+     */
+    public function __construct(
+        string $userId,
+        ?string $map = null,
+        ?string $profileId = null
+    ) {
+        $orExpr = [];
+        $orExpr[] = self::expr()->equals('userId', $userId);
+
+        if (null !== $profileId) {
+            $orExpr[] = self::expr()->in('search.profiles', [$profileId]);
+        }
+
+        if (null !== $map) {
+            $this->andWhere(self::expr()->equals('search.map', $map));
+        }
+
+        $this->andWhere(\call_user_func_array([self::expr(), 'orX'], $orExpr));
+    }
+}
+
 ```
 
 ```php
 <?php
 
-    $spec = (new MyDocumentSpecification())
+    $spec = (new MyDocumentComplexitySearchSpecification())
         ->someComplexitySearch($userId, $map, $profileId)
         ->limit($paginator->getLimit())
         ->offset($paginator->getOffset());
