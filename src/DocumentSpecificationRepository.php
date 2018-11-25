@@ -2,6 +2,7 @@
 
 namespace Doctrine\ODM\MongoDB\Specification;
 
+use Doctrine\MongoDB\Iterator;
 use Doctrine\ODM\MongoDB\Query\Builder;
 use Doctrine\ODM\MongoDB\Query\Query;
 use Doctrine\ODM\MongoDB\Specification\ResultModifier\ResultModifierInterface;
@@ -14,16 +15,10 @@ use Doctrine\ODM\MongoDB\DocumentRepository;
 class DocumentSpecificationRepository extends DocumentRepository implements DocumentSpecificationRepositoryInterface
 {
     /**
-     * Get results when you match with a Specification.
-     *
-     * @param SpecificationInterface     $specification
-     * @param ResultTransformerInterface $resultTransformer
-     * @param ResultModifierInterface    $resultModifier
-     *
-     * @return LazySpecificationCollection
+     * @inheritdoc
      */
     public function match(
-        SpecificationInterface $specification,
+        MatchSpecificationInterface $specification,
         ResultTransformerInterface $resultTransformer = null,
         ResultModifierInterface $resultModifier = null
     ): LazySpecificationCollection {
@@ -31,19 +26,10 @@ class DocumentSpecificationRepository extends DocumentRepository implements Docu
     }
 
     /**
-     * Get single result when you match with a Specification.
-     *
-     * @param SpecificationInterface     $specification
-     * @param ResultTransformerInterface $transformer
-     * @param ResultModifierInterface    $modifier
-     *
-     * @throw \NonUniqueException  If more than one result is found
-     * @throw \NoResultException   If no results found
-     *
-     * @return mixed
+     * @inheritdoc
      */
     public function matchSingleResult(
-        SpecificationInterface $specification,
+        MatchSpecificationInterface $specification,
         ResultTransformerInterface $transformer = null,
         ResultModifierInterface $modifier = null
     ) {
@@ -57,18 +43,10 @@ class DocumentSpecificationRepository extends DocumentRepository implements Docu
     }
 
     /**
-     * Get single result or null when you match with a Specification.
-     *
-     * @param SpecificationInterface     $specification
-     * @param ResultTransformerInterface $transformer
-     * @param ResultModifierInterface    $modifier
-     *
-     * @throw Exception\NonUniqueException  If more than one result is found
-     *
-     * @return mixed|null
+     * @inheritdoc
      */
     public function matchOneOrNullResult(
-        SpecificationInterface $specification,
+        MatchSpecificationInterface $specification,
         ResultTransformerInterface $transformer = null,
         ResultModifierInterface $modifier = null
     ) {
@@ -80,14 +58,9 @@ class DocumentSpecificationRepository extends DocumentRepository implements Docu
     }
 
     /**
-     * Get doctrine query for execution
-     *
-     * @param SpecificationInterface       $specification
-     * @param ResultModifierInterface|null $modifier
-     *
-     * @return Query
+     * @inheritdoc
      */
-    public function getQuery(SpecificationInterface $specification, ResultModifierInterface $modifier = null): Query
+    public function getQuery(MatchSpecificationInterface $specification, ResultModifierInterface $modifier = null): Query
     {
         $queryBuilder = $this->getQueryBuilder($specification);
 
@@ -99,13 +72,9 @@ class DocumentSpecificationRepository extends DocumentRepository implements Docu
     }
 
     /**
-     * Get query builder with applied specification
-     *
-     * @param SpecificationInterface $specification
-     *
-     * @return Builder
+     * @inheritdoc
      */
-    public function getQueryBuilder(SpecificationInterface $specification): Builder
+    public function getQueryBuilder(MatchSpecificationInterface $specification): Builder
     {
         $queryBuilder = $this->createQueryBuilder();
 
@@ -114,4 +83,15 @@ class DocumentSpecificationRepository extends DocumentRepository implements Docu
 
         return $queryBuilder;
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function aggregate(AggregateSpecificationInterface $specification): Iterator
+    {
+        $queryBuilder = $this->createAggregationBuilder();
+
+        return $specification->aggregate($queryBuilder);
+    }
+
 }

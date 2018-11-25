@@ -2,14 +2,15 @@
 
 namespace Doctrine\ODM\MongoDB\Specification;
 
-use Doctrine\ODM\MongoDB\Specification\Expr;
+use Doctrine\MongoDB\Query\Expr;
+use Doctrine\ODM\MongoDB\Query\Builder;
 use Doctrine\ODM\MongoDB\Specification\QueryModifier;
 use Doctrine\ODM\MongoDB\Specification\ResultModifier;
 
 /**
  * Class BaseSpecification
  */
-abstract class Specification implements SpecificationInterface
+abstract class Specification implements MatchSpecificationInterface
 {
     /**
      * @var QueryModifier\QueryModifierInterface[]
@@ -22,78 +23,21 @@ abstract class Specification implements SpecificationInterface
     protected $resultModifiers = [];
 
     /**
-     * @var Expr\ExpressionInterface
+     * @var Expr
      */
-    protected $expression;
-
-    /**
-     * @var Expr\ExpressionBuilder
-     */
-    private static $expressionBuilder;
+    private $expression;
 
     /**
      * Returns the expression builder.
      *
-     * @return Expr\ExpressionBuilder
+     * @return Expr
      */
-    public static function expr(): Expr\ExpressionBuilder
-    {
-        if (self::$expressionBuilder === null) {
-            self::$expressionBuilder = new Expr\ExpressionBuilder();
-        }
-
-        return self::$expressionBuilder;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function where(Expr\ExpressionInterface $expression): SpecificationInterface
-    {
-        $this->expression = $expression;
-
-        return $this;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function andWhere(Expr\ExpressionInterface $expression): SpecificationInterface
+    public function expr(): Expr
     {
         if ($this->expression === null) {
-            return $this->where($expression);
+            $this->expression = new Expr();
         }
 
-        $this->expression = new Expr\CompositeExpression(Expr\CompositeExpression::TYPE_AND, [
-            $this->expression,
-            $expression,
-        ]);
-
-        return $this;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function orWhere(Expr\ExpressionInterface $expression): SpecificationInterface
-    {
-        if ($this->expression === null) {
-            return $this->where($expression);
-        }
-
-        $this->expression = new Expr\CompositeExpression(Expr\CompositeExpression::TYPE_OR, [
-            $this->expression,
-            $expression,
-        ]);
-
-        return $this;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getWhereExpression(): ?Expr\ExpressionInterface
-    {
         return $this->expression;
     }
 
@@ -108,7 +52,7 @@ abstract class Specification implements SpecificationInterface
     /**
      * @inheritdoc
      */
-    public function limit(int $count): SpecificationInterface
+    public function limit(int $count): MatchSpecificationInterface
     {
         $this->queryModifiers[] = new QueryModifier\Limit($count);
 
@@ -118,7 +62,7 @@ abstract class Specification implements SpecificationInterface
     /**
      * @inheritdoc
      */
-    public function offset(int $count): SpecificationInterface
+    public function offset(int $count): MatchSpecificationInterface
     {
         $this->queryModifiers[] = new QueryModifier\Offset($count);
 
@@ -128,17 +72,7 @@ abstract class Specification implements SpecificationInterface
     /**
      * @inheritdoc
      */
-    public function sortBy(string $field, int $order = 1): SpecificationInterface
-    {
-        $this->queryModifiers[] = new QueryModifier\SortBy($field, $order);
-
-        return $this;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function eagerCursor(bool $eager): SpecificationInterface
+    public function eagerCursor(bool $eager): MatchSpecificationInterface
     {
         $this->resultModifiers[] = new ResultModifier\EagerCursor($eager);
 
@@ -148,7 +82,7 @@ abstract class Specification implements SpecificationInterface
     /**
      * @inheritdoc
      */
-    public function readOnly(bool $readOnly): SpecificationInterface
+    public function readOnly(bool $readOnly): MatchSpecificationInterface
     {
         $this->resultModifiers[] = new ResultModifier\ReadOnly($readOnly);
 
@@ -158,10 +92,42 @@ abstract class Specification implements SpecificationInterface
     /**
      * @inheritdoc
      */
-    public function refresh(bool $refresh): SpecificationInterface
+    public function refresh(bool $refresh): MatchSpecificationInterface
     {
         $this->resultModifiers[] = new ResultModifier\Refresh($refresh);
 
+        return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getExpression(): ?Expr
+    {
+        return $this->expression;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function applyWhere(): MatchSpecificationInterface
+    {
+        return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function applySort(Builder $builder): MatchSpecificationInterface
+    {
+        return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function applyQueryOptions(Builder $builder): MatchSpecificationInterface
+    {
         return $this;
     }
 }
