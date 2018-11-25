@@ -20,7 +20,7 @@ class LazySpecificationCollection extends AbstractLazyCollection
     private $repository;
 
     /**
-     * @var SpecificationInterface
+     * @var MatchSpecificationInterface
      */
     private $specification;
 
@@ -38,13 +38,13 @@ class LazySpecificationCollection extends AbstractLazyCollection
      * LazySpecificationCollection constructor.
      *
      * @param DocumentSpecificationRepository $repository
-     * @param SpecificationInterface          $specification
+     * @param MatchSpecificationInterface     $specification
      * @param ResultModifierInterface|null    $resultModifier
      * @param ResultTransformerInterface|null $resultTransformer
      */
     public function __construct(
         DocumentSpecificationRepository $repository,
-        SpecificationInterface $specification,
+        MatchSpecificationInterface $specification,
         ResultModifierInterface $resultModifier = null,
         ResultTransformerInterface $resultTransformer = null
     ) {
@@ -71,9 +71,9 @@ class LazySpecificationCollection extends AbstractLazyCollection
     }
 
     /**
-     * @return SpecificationInterface
+     * @return MatchSpecificationInterface
      */
-    public function getSpecification(): SpecificationInterface
+    public function getSpecification(): MatchSpecificationInterface
     {
         return $this->specification;
     }

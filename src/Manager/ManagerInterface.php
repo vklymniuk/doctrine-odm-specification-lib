@@ -2,9 +2,11 @@
 
 namespace Doctrine\ODM\MongoDB\Specification\Manager;
 
+use Doctrine\MongoDB\Iterator;
+use Doctrine\ODM\MongoDB\Specification\AggregateSpecificationInterface;
 use Doctrine\ODM\MongoDB\Specification\LazySpecificationCollection;
 use Doctrine\ODM\MongoDB\Specification\ResultTransformer\ResultTransformerInterface;
-use Doctrine\ODM\MongoDB\Specification\SpecificationInterface;
+use Doctrine\ODM\MongoDB\Specification\MatchSpecificationInterface;
 
 /**
  * Interface ManagerInterface
@@ -12,22 +14,29 @@ use Doctrine\ODM\MongoDB\Specification\SpecificationInterface;
 interface ManagerInterface
 {
     /**
-     * @param SpecificationInterface          $specification
+     * @param MatchSpecificationInterface          $specification
      * @param ResultTransformerInterface|null $resultTransformer
      *
      * @return LazySpecificationCollection
      */
     public function find(
-        SpecificationInterface $specification,
+        MatchSpecificationInterface $specification,
         ResultTransformerInterface $resultTransformer = null
     ): LazySpecificationCollection;
 
     /**
-     * @param SpecificationInterface $specification
+     * @param MatchSpecificationInterface $specification
      *
      * @return object|null
      */
-    public function findOne(SpecificationInterface $specification): ?object;
+    public function findOne(MatchSpecificationInterface $specification): ?object;
+
+    /**
+     * @param AggregateSpecificationInterface $specification
+     *
+     * @return Iterator
+     */
+    public function aggregate(AggregateSpecificationInterface $specification): Iterator;
 
     /**
      * Returns Entity class which manager works

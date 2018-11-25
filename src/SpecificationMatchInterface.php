@@ -10,16 +10,16 @@ use Doctrine\MongoDB\Iterator;
 interface SpecificationMatchInterface
 {
     /**
-     * @param SpecificationInterface $specification
+     * @param MatchSpecificationInterface $specification
      *
      * @return null|Object
      */
-    public function matchOne(SpecificationInterface $specification): ?Object;
+    public function matchOne(MatchSpecificationInterface $specification): ?Object;
 
     /**
-     * @param SpecificationInterface $specification
+     * @param MatchSpecificationInterface $specification
      *
      * @return Iterator
      */
-    public function match(SpecificationInterface $specification): Iterator;
+    public function match(MatchSpecificationInterface $specification): Iterator;
 }

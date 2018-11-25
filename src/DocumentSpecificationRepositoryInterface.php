@@ -2,6 +2,7 @@
 
 namespace Doctrine\ODM\MongoDB\Specification;
 
+use Doctrine\MongoDB\Iterator;
 use Doctrine\ODM\MongoDB\Query\Builder;
 use Doctrine\ODM\MongoDB\Query\Query;
 use Doctrine\ODM\MongoDB\Specification\ResultModifier\ResultModifierInterface;
@@ -15,14 +16,14 @@ interface DocumentSpecificationRepositoryInterface
     /**
      * Get results when you match with a Specification.
      *
-     * @param SpecificationInterface     $specification
+     * @param MatchSpecificationInterface     $specification
      * @param ResultTransformerInterface $resultTransformer
      * @param ResultModifierInterface    $resultModifier
      *
      * @return LazySpecificationCollection
      */
     public function match(
-        SpecificationInterface $specification,
+        MatchSpecificationInterface $specification,
         ResultTransformerInterface $resultTransformer = null,
         ResultModifierInterface $resultModifier = null
     ): LazySpecificationCollection;
@@ -30,7 +31,7 @@ interface DocumentSpecificationRepositoryInterface
     /**
      * Get single result when you match with a Specification.
      *
-     * @param SpecificationInterface     $specification
+     * @param MatchSpecificationInterface     $specification
      * @param ResultTransformerInterface $transformer
      * @param ResultModifierInterface    $modifier
      *
@@ -40,7 +41,7 @@ interface DocumentSpecificationRepositoryInterface
      * @return mixed
      */
     public function matchSingleResult(
-        SpecificationInterface $specification,
+        MatchSpecificationInterface $specification,
         ResultTransformerInterface $transformer = null,
         ResultModifierInterface $modifier = null
     );
@@ -48,7 +49,7 @@ interface DocumentSpecificationRepositoryInterface
     /**
      * Get single result or null when you match with a Specification.
      *
-     * @param SpecificationInterface     $specification
+     * @param MatchSpecificationInterface     $specification
      * @param ResultTransformerInterface $transformer
      * @param ResultModifierInterface    $modifier
      *
@@ -57,7 +58,7 @@ interface DocumentSpecificationRepositoryInterface
      * @return mixed|null
      */
     public function matchOneOrNullResult(
-        SpecificationInterface $specification,
+        MatchSpecificationInterface $specification,
         ResultTransformerInterface $transformer = null,
         ResultModifierInterface $modifier = null
     );
@@ -65,19 +66,28 @@ interface DocumentSpecificationRepositoryInterface
     /**
      * Get doctrine query for execution
      *
-     * @param SpecificationInterface       $specification
+     * @param MatchSpecificationInterface       $specification
      * @param ResultModifierInterface|null $modifier
      *
      * @return Query
      */
-    public function getQuery(SpecificationInterface $specification, ResultModifierInterface $modifier = null): Query;
+    public function getQuery(MatchSpecificationInterface $specification, ResultModifierInterface $modifier = null): Query;
 
     /**
      * Get query builder with applied specification
      *
-     * @param SpecificationInterface $specification
+     * @param AggregateSpecificationInterface $specification
+     *
+     * @return Iterator
+     */
+    public function aggregate(AggregateSpecificationInterface $specification): Iterator;
+
+    /**
+     * Get query builder with applied specification
+     *
+     * @param MatchSpecificationInterface $specification
      *
      * @return Builder
      */
-    public function getQueryBuilder(SpecificationInterface $specification): Builder;
+    public function getQueryBuilder(MatchSpecificationInterface $specification): Builder;
 }
