@@ -110,8 +110,9 @@ abstract class Specification implements MatchSpecificationInterface
     /**
      * @inheritdoc
      */
-    public function applyWhere(Builder $builder): MatchSpecificationInterface
+    public function applyWhere(): MatchSpecificationInterface
     {
+        return $this;
     }
 
     /**
@@ -119,6 +120,7 @@ abstract class Specification implements MatchSpecificationInterface
      */
     public function applySort(Builder $builder): MatchSpecificationInterface
     {
+        return $this;
     }
 
     /**
@@ -126,5 +128,6 @@ abstract class Specification implements MatchSpecificationInterface
      */
     public function applyQueryOptions(Builder $builder): MatchSpecificationInterface
     {
+        return $this;
     }
 }

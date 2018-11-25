@@ -26,11 +26,9 @@ interface MatchSpecificationInterface
     public function getQueryModifiers(): array;
 
     /**
-     * @param Builder $builder
-     *
      * @return MatchSpecificationInterface
      */
-    public function applyWhere(Builder $builder): MatchSpecificationInterface;
+    public function applyWhere(): MatchSpecificationInterface;
 
     /**
      * @param Builder $builder
@@ -45,4 +43,39 @@ interface MatchSpecificationInterface
      * @return MatchSpecificationInterface
      */
     public function applyQueryOptions(Builder $builder): MatchSpecificationInterface;
+
+    /**
+     * @param int $count
+     *
+     * @return MatchSpecificationInterface
+     */
+    public function limit(int $count): MatchSpecificationInterface;
+
+    /**
+     * @param int $count
+     *
+     * @return MatchSpecificationInterface
+     */
+    public function offset(int $count): MatchSpecificationInterface;
+
+    /**
+     * @param bool $eager
+     *
+     * @return MatchSpecificationInterface
+     */
+    public function eagerCursor(bool $eager): MatchSpecificationInterface;
+
+    /**
+     * @param bool $readOnly
+     *
+     * @return MatchSpecificationInterface
+     */
+    public function readOnly(bool $readOnly): MatchSpecificationInterface;
+
+    /**
+     * @param bool $refresh
+     *
+     * @return MatchSpecificationInterface
+     */
+    public function refresh(bool $refresh): MatchSpecificationInterface;
 }

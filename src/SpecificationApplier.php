@@ -15,9 +15,15 @@ class SpecificationApplier
      */
     public static function apply(MatchSpecificationInterface $specification, Builder $queryBuilder): void
     {
+        $specification
+            ->applyWhere()
+            ->applyQueryOptions($queryBuilder)
+            ->applySort($queryBuilder);
+
         //expressions
         if ($where = $specification->getExpression()) {
-            $queryBuilder->setQueryArray($where->getQuery());
+            $query = $where->getQuery();
+            $queryBuilder->setQueryArray($query);
         }
 
         //query modifiers
