@@ -35,6 +35,13 @@ class LazySpecificationCollection extends AbstractLazyCollection
     private $resultTransformer;
 
     /**
+     * @TODO: Remove it
+     *
+     * @var int
+     */
+    private $count;
+
+    /**
      * LazySpecificationCollection constructor.
      *
      * @param DocumentSpecificationRepository $repository
@@ -107,11 +114,35 @@ class LazySpecificationCollection extends AbstractLazyCollection
     }
 
     /**
+     * @TODO: Remove after release
+     *
+     * {@inheritDoc}
+     */
+    public function count()
+    {
+        $this->initialize();
+
+        return $this->count;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotal(): int
+    {
+        $query = $this->repository->getQuery($this->specification);
+
+        return $query->count();
+    }
+
+    /**
      * {@inheritDoc}
      */
     protected function doInitialize(): void
     {
         $query = $this->repository->getQuery($this->specification, $this->resultModifier);
+        $this->count = $query->count();
+
         $result = $query->execute();
 
         if ($this->resultTransformer instanceof ResultTransformerInterface) {
