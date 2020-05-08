@@ -22,7 +22,7 @@
         "symfony"
     ],
     "require": {
-        "php": "^7.2",
+        "php": "^7.3",
         "ext-mongodb": "*",
         "alcaeus/mongo-php-adapter": "^1.1",
         "doctrine/mongodb": "^1.6",
