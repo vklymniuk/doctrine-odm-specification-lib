@@ -26,7 +26,7 @@
         "ext-mongodb": "*",
         "alcaeus/mongo-php-adapter": "^1.1",
         "doctrine/mongodb": "^1.6",
-        "doctrine/mongodb-odm-bundle": "^3.5"
+        "doctrine/mongodb-odm-bundle": "^3.6"
     },
     "autoload": {
         "psr-4": {
